@@ -1,5 +1,5 @@
 # Canvas-HTML
-In here contains any manipulation 2d object with HTML5 canvas
+In here contains any manipulation square object with HTML5 canvas
 
 there 10 button with variaty output
 
