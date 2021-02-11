@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Assigment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <h1><u>HTML5 Canvas</u></h1>
+
+    <table width=100% border=1 color="blue" height=100%>
+        <tr>
+            <td align="center">
+                <canvas id="canvasku" width=800 height="400" style="border:1px solid blue;">
+                    Your browser does not support the HTML5 canvas tag.</canvas>
+            </td>
+        </tr>
+    </table>
+
+    <button onclick="drawSquare()">Square</button>
+    <button class="clear" onclick="clear()">Clear</button>
+    <button class="rotate" onclick="rotate()">Rotate</button>
+    <button style="background-color:  rgb(142, 6, 221);" onclick="rotatedM()">Rotated</button>
+    <button style="background-color:  rgb(142, 6, 221);" onclick="bounceM()">Bounced</button>
+    <br><br>
+    <div class="navigation">
+        <button onclick="goUp()">Up</button>
+        <button class="arrow" onclick="goLeft()">Left</button><button class="arrow" onclick="goRight()">Right</button>
+        <button onclick="goDown()">Down</button>
+    </div>
+    <div class="navigation">
+
+        <button style="background-color:  rgb(226, 111, 17);" onclick="object2()">2 Object</button>
+    </div>
+    <!-- Nur Ali Sholikhin -->
+    <br><br><br>
+
+    <div class="card">
+        <img src="photo/owner.jpg" alt="" style="width:50%">
+        <p><strong>Nur Ali Sholikhin</strong> </p>
+        <p>Teknik Informatika'18</p>
+        <p>UWP Surabaya</p>
+    </div>
+
+    <script>
+        //register code
+        document.onkeydown = function (e) {
+            switch (e.keyCode) {
+                case 65:
+                    goLeft();
+                    break;
+                case 87:
+                    goUp();
+                    break;
+                case 68:
+                    goRight();
+                    break;
+                case 83:
+                    goDown();
+                    break;
+                case 82:
+                    rotate();
+                    break;
+            }
+        }
+
+        var canvas = document.getElementById("canvasku");
+        var ctx = canvas.getContext("2d");
+        canvas.width = canvas.scrollWidth;
+        canvas.height = canvas.scrollHeight;
+
+        var canvasW = canvas.width;
+        var canvasH = canvas.height;
+
+        var angle = 0;
+        var angle1 = 0;
+
+        var up = true;
+        var right = true;
+        var left = true;
+        var down = true;
+
+        function square() {
+            this.x = 0;
+            this.y = 0;
+            this.draw = function (ctx, squareX, squareY, squareW, squareH, color) {
+                ctx.fillStyle = color;
+                ctx.fillRect(squareX, squareY, squareW, squareH);
+            }
+        }
+
+        var square1 = new square();
+        var x = 100;
+        var y = 50;
+        var w = 100;
+        var h = 100;
+        var square2 = new square();
+        var x1 = 700;
+        var y1 = 50;
+        var w1 = 100;
+        var h1 = 100;
+
+        function drawSquare() {
+            clear();
+            square1.draw(ctx, x, y, w, h, 'rgb(184,20,250)');
+        }
+
+
+        function clear() {
+            ctx.clearRect(0, 0, canvasW, canvasH);
+            ctx.beginPath();
+        }
+
+        function goRight() {
+            clear();
+            checkPosition();
+            if (right) {
+                x++;
+            }
+            drawSquare();
+        }
+
+        function goLeft() {
+            clear();
+            checkPosition();
+            if (left) {
+                x--;
+            }
+            drawSquare();
+        }
+
+        function goUp() {
+            clear();
+            checkPosition();
+            if (up) {
+                y--;
+            }
+            drawSquare();
+        }
+
+        function goDown() {
+            clear();
+            checkPosition();
+            if (down) {
+                y++;
+            }
+            drawSquare();
+        }
+
+        function rotate() {
+            var pusatX = x + (w / 2);
+            var pusatY = y + (h / 2);
+            ctx.save();
+            clear();
+            ctx.translate(pusatX, pusatY);
+            ctx.rotate(Math.PI / 180 * angle);
+            ctx.translate(-pusatX, -pusatY);
+            drawSquare();
+            angle += 30;
+            ctx.restore();
+        }
+
+        function rotatedM() {
+            ctx.save();
+            clear();
+            goRight();
+            rotate();
+            ctx.restore();
+            animasi = setTimeout(rotatedM, 100);
+        }
+
+        function bounceM() {
+            ctx.save();
+            clear();
+            goUp();
+            rotate();
+            goRight();
+            rotate();
+
+            if (up == false) {
+                goDown();
+                rotate();
+
+                goLeft();
+                rotate();
+
+            }
+            ctx.restore();
+            gerak = setTimeout(bounceM, 100);
+        }
+
+        function checkPosition() {
+            if (y == canvasH - w) {
+                up = true;
+                down = false;
+            } else if (y == 0) {
+                up = false;
+                down = true;
+            }
+
+            if (x == canvasW - w) {
+                right = false;
+                left = true;
+            } else if (x == 0) {
+                right = true;
+                left = false;
+            }
+        }
+
+
+        var toUp = false;
+        var toRight = true;
+        var toLeft = false;
+        var toDown = true;
+
+        function cekbup() {
+            if (y1 == canvasH - w1) {
+                toUp = true;
+                toDown = false;
+            } else if (y1 == 0) {
+                toUp = false;
+                toDown = true;
+            }
+
+            if (x1 == canvasW - w1) {
+                toRight = false;
+                toLeft = true;
+            } else if (x1 == 0) {
+                toRight = true;
+                toLeft = false;
+            }
+        }
+
+
+        function object2() {
+            ctx.save();
+            clear();
+
+            //rotate square 1
+            goUp();
+            rotate();
+            goRight();
+            rotate();
+
+            if (up == false) {
+                goDown();
+                rotate();
+
+                goLeft();
+                rotate();
+
+            }
+
+            //rotate square 2
+            var centerX1 = x1 + (w1 / 2);
+            var centerY1 = y1 + (h1 / 2);
+            ctx.translate(centerX1, centerY1);
+            ctx.rotate(Math.PI / 180 * angle);
+            ctx.translate(-centerX1, -centerY1);
+            square2.draw(ctx, x1, y1, w1, h1, 'rgb(209, 196, 12)');
+            angle1 += 30;
+
+            cekbup();
+            if (toUp) {
+                y1--;
+            }
+            if (toDown) {
+                y1++;
+            }
+            if (toRight) {
+                x1++;
+            }
+            if (toLeft) {
+                x1--;
+            }
+            ctx.restore();
+            pantul2 = setTimeout(object2, 150);
+        }
+
+        function rotate2() {
+            var centerX1 = x1 + (w1 / 2);
+            var centerY1 = y1 + (h1 / 2);
+            ctx.save();
+            clear();
+            ctx.translate(centerX1, centerY1);
+            ctx.rotate(Math.PI / 180 * angle);
+            ctx.translate(-centerX1, -centerY1);
+            drawSquare();
+            angle += 30;
+            ctx.restore();
+        }
+    </script>
+</body>
+
+</html>
