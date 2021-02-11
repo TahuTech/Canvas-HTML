@@ -24,3 +24,5 @@ The List Button :
 -> square move Down you can use your S on your keyboard too.
 10. 2 Object
 -> this produce 2 square with diferent color but the motion rotating and moving, bounce too if hit the canvas border.
+
+*i make square object with OOP concept
